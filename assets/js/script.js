@@ -26,14 +26,26 @@ const message = document.querySelector('.message');
 // Game values
 let min = 1,
     max = 10,
-    winningNum = 2,
+    winningNum = getRandomNum(min, max),
     guessesLeft = 3;
-
-   
 
 // Assign UI min to max
 minNum.textContent = min;
 maxNum.textContent = max;
+
+// Play again event listener
+// Mousedown is to be used over click event, click event
+// reloads page when not wanted, where mousedown allows 
+// the functionality that we are looking for
+game.addEventListener('mousedown', function(e) {
+    // if we target the submit once it turns into play-again
+    if(e.target.className === 'play-again') {
+        // reload the page
+        window.location.reload();
+
+      
+    }
+});
 
 // Listen for guessBtn
 // Notice how we turn guess from string using parseInt
@@ -75,11 +87,14 @@ guessBtn.addEventListener('click', function (e) {
              ${guessesLeft} guesses left`, 'red');
         }
     };
+});
 
+    // Game over
     function gameOver(won, msg) {
         let color;
+        // Turnary operator / if/ else statement
         won === true ? color = 'green' : 'red';
-        
+    
 
         // Disable input
         guessInput.disabled = true;
@@ -89,8 +104,23 @@ guessBtn.addEventListener('click', function (e) {
         message.style.color = color;
         // Set message win
         setMessage(msg);
-    }
+    
 
+    // Play Again
+    guessBtn.value = 'Play Again';
+        guessBtn.className += 'play-again';
+        console.log(guessBtn);
+    };
+    
+
+    // Get Winning Number
+    function getRandomNum(min, max) {
+        // Notice the formula used for the Math.random, this 
+        // helps get us a whole number (without decimal) between
+        // our min and max values, regardless of what they are.
+        return Math.floor(Math.random() * (max - min + 1) + min);
+        
+    };
 
     // Set message
     function setMessage(msg, color) {
@@ -99,6 +129,6 @@ guessBtn.addEventListener('click', function (e) {
     };
 
 
-});
+
 
 
